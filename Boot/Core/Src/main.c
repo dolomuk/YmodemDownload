@@ -104,12 +104,13 @@ uint8_t SRdkFrm_f10HzFlag = 0;
 uint8_t SRdkFrm_InUpdateModeFlag = 0;
 __IO uint32_t Sys_f10HzCnt = 0;
 
-// 处理接收到的数据
+// ??? ???? ?????.
 void Handle_RecvData(uint8_t *buf, uint32_t size)
 {
 	static uint32_t offset_addr = 0;
 	
 	iap_write_appbin(FLASH_APP1_ADDR + offset_addr, buf, size);
+	
 	offset_addr += size;
 }
 #endif
@@ -117,7 +118,7 @@ void Handle_RecvData(uint8_t *buf, uint32_t size)
 /* USER CODE END 0 */
 
 /**
-  * @brief  The application entry point.
+  * @brief  ?????? ???.
   * @retval int
   */
 int main(void)
@@ -128,34 +129,33 @@ int main(void)
 
 	/* MCU Configuration--------------------------------------------------------*/
 
-	/* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+	/* ?? ?? ??? ????, Flash ?????? Systick? ??????. */
 
 	LL_APB2_GRP1_EnableClock(LL_APB2_GRP1_PERIPH_AFIO);
 	LL_APB1_GRP1_EnableClock(LL_APB1_GRP1_PERIPH_PWR);
 
 	NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_2);
 
-	/* System interrupt init*/
+	/* ??? ???? ??? */
 
-	/** NOJTAG: JTAG-DP Disabled and SW-DP Enabled
-	*/
+	/** NOJTAG: JTAG-DP ???? ? SW-DP ??? */
 	LL_GPIO_AF_Remap_SWJ_NOJTAG();
 
 	/* USER CODE BEGIN Init */
 
 	/* USER CODE END Init */
 
-	/* Configure the system clock */
+	/* ??? ?? ?? */
 	SystemClock_Config();
 
 	/* USER CODE BEGIN SysInit */
 
 	/* USER CODE END SysInit */
 
-	/* Initialize all configured peripherals */
+	/* ?? ??? ?? ??? ??????. */
 	MX_GPIO_Init();
 	/* USER CODE BEGIN 2 */
-	clock_init(); // 初始化tick
+	clock_init(); // tick ???
 	IAP_UartInit(115200);
 	#ifdef USART_QUEUE_TEST
 	g_pDataQueue = CreateQueue(1*1024);
@@ -176,7 +176,7 @@ int main(void)
 	
   /* USER CODE END 2 */
 	
-  /* Infinite loop */
+  /* ?? ?? */
   /* USER CODE BEGIN WHILE */
 	while (1)
 	{
@@ -184,7 +184,7 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 		#ifdef YMODEM_TEST
-		if(recv_status) // 接收完成
+		if(recv_status) // ?? ??
 		{
 			Sys_f10HzCnt = 0;
 			ymodem_status = Ymodem_Receive((uint8_t *)rx_buffer, rx_buffer_size, &file_info, &cur_recv_size);
@@ -210,8 +210,8 @@ int main(void)
 				uint32_t i = 0;
 				p_info("wait...");
 				while(i++ < TIMEOUT_WAIT);
-				p_info("Update successful, file_name:%s, size:%d Byte", file_info.file_name, file_info.file_size);
-				p_info("jump to app...");
+				p_info("???? ??, ?? ??:%s, ??:%d Byte", file_info.file_name, file_info.file_size);
+				p_info("??? ??...");
 				iap_load_app(FLASH_APP1_ADDR);
 			}
 			recv_status = 0;
@@ -219,7 +219,7 @@ int main(void)
 		}
 		else
 		{
-			#define TIMEOUT_COUNT_WAIT	20 // 等20*100ms
+			#define TIMEOUT_COUNT_WAIT	20 // 20*100ms ??
 			if(!SRdkFrm_InUpdateModeFlag && SRdkFrm_f10HzFlag)
 			{
 				SRdkFrm_f10HzFlag = 0;
@@ -230,7 +230,7 @@ int main(void)
 			{
 				Sys_f10HzCnt = 0;
 				SRdkFrm_f10HzFlag = 0;
-				p_info("timeout! wait... jump to app...");
+				p_info("????! ??... ??? ??...");
 				iap_load_app(FLASH_APP1_ADDR);
 			}
 		}

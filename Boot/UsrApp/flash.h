@@ -6,19 +6,19 @@
 #include "iap.h"
 
 #if (PLATFORM_VERSION == STM32_F103)
-	// FLASH起始地址
-	#define STM32_FLASH_BASE	FLASH_BASE 	// STM32 FLASH的起始地址
-	// FLASH 页大小
+	// FLASH ?? ??
+	#define STM32_FLASH_BASE	FLASH_BASE 	// STM32 FLASH? ?? ??
+	// FLASH ??? ??
 	#define STM32_PAGE_SIZE		0x400 // 1KB
-	// 起始页
+	// ?? ???
 	#define STM32_PAGE_START	((FLASH_APP1_ADDR - FLASH_BASE)/1024)
-	// 页总数64,flash总大小64*1KB
+	// ? ??? ? 64, flash ? ?? 64*1KB
 	#define MAX_PAGE_COUNT		64
 	#define STM32_APP_PAGE_COUNT	(MAX_PAGE_COUNT - STM32_PAGE_START)
 #elif(PLATFORM_VERSION == STM32_F407)
-	// FLASH起始地址
-	#define STM32_FLASH_BASE FLASH_BASE 	// STM32 FLASH的起始地址
-	// FLASH 扇区的起始地址
+	// FLASH ?? ??
+	#define STM32_FLASH_BASE FLASH_BASE 	// STM32 FLASH? ?? ??
+	// FLASH ??? ?? ??
 	#define STM32_SECTOR0	0x08000000
 #endif
 
@@ -35,9 +35,9 @@ typedef enum
 } FlashStatus;
 
 // public:
-FlashStatus FLASH_Erase(uint32_t addr, uint32_t size); // 从指定地址开始擦除指定长度
-uint32_t FLASH_ReadWord(uint32_t addr);	// 读出字
-FlashStatus FLASH_Write(uint32_t WriteAddr,uint32_t *pBuffer,uint32_t NumToWrite); // 从指定地址开始写入指定长度的数据
-void FLASH_Read(uint32_t ReadAddr,uint32_t *pBuffer,uint32_t NumToRead); // 从指定地址开始读出指定长度的数据
+FlashStatus FLASH_Erase(uint32_t addr, uint32_t size); // ??? ???? ???? ??? ??? ????.
+uint32_t FLASH_ReadWord(uint32_t addr);	// ?? ??
+FlashStatus FLASH_Write(uint32_t WriteAddr,uint32_t *pBuffer,uint32_t NumToWrite); // ??? ???? ???? ??? ??? ???? ???.
+void FLASH_Read(uint32_t ReadAddr,uint32_t *pBuffer,uint32_t NumToRead); // ??? ???? ???? ??? ??? ???? ????.
 
 #endif /* __FLASH_H__ */

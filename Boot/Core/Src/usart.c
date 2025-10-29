@@ -75,7 +75,7 @@ void IAP_UartInit(uint32_t baund)
 	LL_USART_Enable(USART1);
 	
 #if defined(ENABLE_USART1_IRQ)
-// 使能空闲中断和接收中断
+// ?? ?? ? ?? ?? ???
 //	LL_USART_EnableIT_RXNE(USART1);
 	LL_USART_EnableIT_IDLE(USART1);
 	
@@ -92,34 +92,34 @@ void IAP_UartInit(uint32_t baund)
 #if defined(ENABLE_UART_RX_DMA)
 static void Start_USART1_RXDMA(void)
 {
-	// 配置DMA地址
+	// DMA ?? ??
 	LL_DMA_ConfigAddresses(USART1_DMA_NUMBER, USART1_DMA_RXCHANNEL, (uint32_t)(&(USART1->DR)), 
 		(uint32_t)rx_buffer, LL_DMA_DIRECTION_PERIPH_TO_MEMORY);
 	
-	// 使能DMA接收
-	LL_DMA_SetDataLength(USART1_DMA_NUMBER, USART1_DMA_RXCHANNEL, DBG_RX_BUFFER_SIZE); // 目的缓冲区大小
-	LL_DMA_EnableIT_TC(USART1_DMA_NUMBER, USART1_DMA_RXCHANNEL); // 传输完成中断
+	// DMA ?? ???
+	LL_DMA_SetDataLength(USART1_DMA_NUMBER, USART1_DMA_RXCHANNEL, DBG_RX_BUFFER_SIZE); // ?? ?? ??
+	LL_DMA_EnableIT_TC(USART1_DMA_NUMBER, USART1_DMA_RXCHANNEL); // ?? ?? ??
 	LL_DMA_EnableChannel(USART1_DMA_NUMBER, USART1_DMA_RXCHANNEL);
 	LL_USART_EnableDMAReq_RX(USART1);
 }
 
 static void USART1_DMA_Config(void)
 {
-	// 使能时钟
+	// ?? ???
 	LL_AHB1_GRP1_EnableClock(LL_AHB1_GRP1_PERIPH_DMA1);
 	
-	// 配置优先级和中断方式
+	// ???? ? ?? ?? ??
 	NVIC_SetPriority(DMA1_Channel5_IRQn, NVIC_EncodePriority(NVIC_GetPriorityGrouping(),0, 1));
 	NVIC_EnableIRQ(DMA1_Channel5_IRQn);
 
-	LL_DMA_SetDataTransferDirection(USART1_DMA_NUMBER, USART1_DMA_RXCHANNEL, LL_DMA_DIRECTION_PERIPH_TO_MEMORY); // 配置DMA方向
-	LL_DMA_SetChannelPriorityLevel(USART1_DMA_NUMBER, USART1_DMA_RXCHANNEL, LL_DMA_PRIORITY_MEDIUM); // 中优先级
-	LL_DMA_SetMode(USART1_DMA_NUMBER, USART1_DMA_RXCHANNEL, LL_DMA_MODE_NORMAL); // 单次模式
-	LL_DMA_SetMemoryIncMode(USART1_DMA_NUMBER, USART1_DMA_RXCHANNEL, LL_DMA_MEMORY_INCREMENT); // 目的地址递增
-	LL_DMA_SetPeriphIncMode(USART1_DMA_NUMBER, USART1_DMA_RXCHANNEL, LL_DMA_PERIPH_NOINCREMENT); // 外设地址不递增
-	// 配置传输数据量和传输的大小
-	LL_DMA_SetMemorySize(USART1_DMA_NUMBER, USART1_DMA_RXCHANNEL, LL_DMA_MDATAALIGN_BYTE); // 传输单位为字节
-	LL_DMA_SetPeriphSize(USART1_DMA_NUMBER, USART1_DMA_RXCHANNEL, LL_DMA_MDATAALIGN_BYTE); // 字节对齐
+	LL_DMA_SetDataTransferDirection(USART1_DMA_NUMBER, USART1_DMA_RXCHANNEL, LL_DMA_DIRECTION_PERIPH_TO_MEMORY); // DMA ?? ??
+	LL_DMA_SetChannelPriorityLevel(USART1_DMA_NUMBER, USART1_DMA_RXCHANNEL, LL_DMA_PRIORITY_MEDIUM); // ?? ????
+	LL_DMA_SetMode(USART1_DMA_NUMBER, USART1_DMA_RXCHANNEL, LL_DMA_MODE_NORMAL); // ?? ??
+	LL_DMA_SetMemoryIncMode(USART1_DMA_NUMBER, USART1_DMA_RXCHANNEL, LL_DMA_MEMORY_INCREMENT); // ?? ?? ??
+	LL_DMA_SetPeriphIncMode(USART1_DMA_NUMBER, USART1_DMA_RXCHANNEL, LL_DMA_PERIPH_NOINCREMENT); // ?? ?? ?? ??
+	// ?? ??? ? ? ?? ?? ??
+	LL_DMA_SetMemorySize(USART1_DMA_NUMBER, USART1_DMA_RXCHANNEL, LL_DMA_MDATAALIGN_BYTE); // ?? ??? ???
+	LL_DMA_SetPeriphSize(USART1_DMA_NUMBER, USART1_DMA_RXCHANNEL, LL_DMA_MDATAALIGN_BYTE); // ??? ??
 }
 #endif
 
@@ -134,7 +134,7 @@ void UART_RxCpltCallback(USART_TypeDef *huart)
 		
 		recv_status  = 1;
 		
-		LL_DMA_SetDataLength(USART1_DMA_NUMBER, USART1_DMA_RXCHANNEL, DBG_RX_BUFFER_SIZE); // 目的缓冲区大小
+		LL_DMA_SetDataLength(USART1_DMA_NUMBER, USART1_DMA_RXCHANNEL, DBG_RX_BUFFER_SIZE); // ?? ?? ??
 		LL_DMA_EnableChannel(USART1_DMA_NUMBER, USART1_DMA_RXCHANNEL);
 		
 	#endif
@@ -150,10 +150,10 @@ void USART1_SendByte(uint8_t ch)
 
 /* USER CODE BEGIN 1 */
 /**
-  * 函数功能: 重定向c库函数printf到串口1
-  * 输入参数: 无
-  * 返 回 值: 无
-  * 说    明：无
+  * ?? ??: C ????? ?? printf? ?? ?? 1? ?????
+  * ?? ????: ??
+  * ?? ?: ??
+  * ??: ??
   */
 int fputc(int ch, FILE *f)
 {
@@ -162,10 +162,10 @@ int fputc(int ch, FILE *f)
 }
 
 /**
-  * 函数功能: 重定向c库函数getchar,scanf到串口1
-  * 输入参数: 无
-  * 返 回 值: 无
-  * 说    明：无
+  * ?? ??: C ????? ?? getchar, scanf? ?? ?? 1? ?????
+  * ?? ????: ??
+  * ?? ?: ??
+  * ??: ??
   */
 int fgetc(FILE *f)
 {

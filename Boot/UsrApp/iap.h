@@ -3,18 +3,18 @@
 
 #include "main.h"
 
-// 定义一个函数类型的参数. 
+// 窃荐 蜡屈狼 概俺函荐 沥狼
 typedef  void (*iapfun)(void);
 
-// app地址，bootloader大小16kB
+// app 林家, bootloader 农扁 16kB
 #define FLASH_APP1_ADDR    (uint32_t)(FLASH_BASE | 0x00004000)
 
-void iap_load_app(uint32_t appxaddr); // 跳转到APP程序执行
-void iap_write_appbin(uint32_t appxaddr, uint8_t *appbuf, uint32_t applen);	// 在指定地址开始,写入bin
-void WFI_SET(void);		     // 执行WFI指令
-void INTX_DISABLE(void);     // 关闭所有中断
-void INTX_ENABLE(void);	     // 开启所有中断
-void MSR_MSP(uint32_t addr); // 设置堆栈地址
-void SoftReset(void);        // 软复位
+void iap_load_app(uint32_t appxaddr); // APP 橇肺弊伐栏肺 痢橇窍咯 角青
+void iap_write_appbin(uint32_t appxaddr, uint8_t *appbuf, uint32_t applen);	// 瘤沥等 林家俊辑 矫累窍咯 bin 颇老 静扁
+void WFI_SET(void);		     // WFI 疙飞绢 角青
+void INTX_DISABLE(void);     // 葛电 牢磐反飘 厚劝己拳
+void INTX_ENABLE(void);	     // 葛电 牢磐反飘 劝己拳
+void MSR_MSP(uint32_t addr); // 胶琶 器牢磐 林家 汲沥
+void SoftReset(void);        // 家橇飘 府悸
 
 #endif /* __IAP_H__ */

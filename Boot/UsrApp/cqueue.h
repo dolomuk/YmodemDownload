@@ -24,7 +24,7 @@
 #define TRUE 1
 #endif
  
-// 定义校验宏
+// ?? ??? ??
 #ifdef DEBUG_ASSERT
 #define ASSERT_ERROR(x) do{if(!x){printf("[ERROR]:file[%s] line[%d] function[%s]\r\n", __FILE__, __LINE__, __func__);while(1);}}while(0)
 #else
@@ -34,7 +34,7 @@
 typedef uint8_t DATA;
  
  
-// 环形队列数据结构
+// ?? ? ??? ?? ??
 typedef struct SQueue
 {
     DATA *m_pData;

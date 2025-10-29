@@ -45,17 +45,17 @@
 
 typedef enum
 {
-	YMODEM_ABORTED = 0x01, // 结束传输
-	YMODEM_CONTINUE, // 继续接收
-	YMODEM_TOO_MANY_ERRORS, // 错误累计超过MAX_ERRORS结束传输
-	YMODEM_DONE, // 传输完成
-	YMODEM_NO_FILE, // 空文件
-	YMODEM_INVALID_FILE_SIZE, // 文件大小无效
-	YMODEM_FILE_INFO_RECV, // 文件信息
+	YMODEM_ABORTED = 0x01, 		//	?? ??
+	YMODEM_CONTINUE, 			//	?? ??
+	YMODEM_TOO_MANY_ERRORS, 	//	?? ??? MAX_ERRORS? ???? ?? ??
+	YMODEM_DONE,  				//	?? ??
+	YMODEM_NO_FILE, 			//	? ??
+	YMODEM_INVALID_FILE_SIZE, 	//	?? ?? ??
+	YMODEM_FILE_INFO_RECV, 		//	?? ??
 } eYmodemStatus;
 
 /* Exported functions ------------------------------------------------------- */
-typedef void (*pfvCallBack)(uint8_t *buf, uint32_t size); // 回调函数指针
+typedef void (*pfvCallBack)(uint8_t *buf, uint32_t size); // ?? ?? ???
 typedef void (*pfvSendCallBack)(uint8_t dat);
 
 void Ymodem_SendAck(void);
@@ -63,8 +63,8 @@ void Ymodem_SendNAck(void);
 void Ymodem_Abort(void);
 void Ymodem_SendCRC16(void);
 void Ymodem_Init(pfvCallBack func, pfvSendCallBack send_func);
-eYmodemStatus Ymodem_Receive(uint8_t *buf, uint32_t buf_size, 
-	sFileType *file_info, uint32_t * recv_size);
+
+eYmodemStatus Ymodem_Receive(uint8_t *buf, uint32_t buf_size, sFileType *file_info, uint32_t * recv_size);
 
 #endif  /* __YMODEM_H_ */
 

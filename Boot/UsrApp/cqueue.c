@@ -10,34 +10,34 @@
 #endif
 
 /**
- * [CreateQueue 创建一个队列]
- * @param  nCount [队列的长度]
- * @return        [队列指针]
+ * [CreateQueue ? ??]
+ * @param  nCount [?? ??]
+ * @return        [? ???]
  */
 p_queue CreateQueue(uint32_t nCount)
 {
 #ifdef MEM_MALLOC
     p_queue p = malloc(sizeof(struct SQueue));
-    p->m_pData = malloc(sizeof(DATA) * nCount); // 核心数据长度
-    p->m_nCount = nCount; // 队列长度
+    p->m_pData = malloc(sizeof(DATA) * nCount); // ?? ??? ??
+    p->m_nCount = nCount; // ? ??
 #else
 	p_queue p = &g_queue;
     p->m_pData = (DATA *)rx_buffer;
 	
-	// 队列长度
+	// ? ??
 	if(nCount >= DBG_RX_BUFFER_SIZE)
 		p->m_nCount = DBG_RX_BUFFER_SIZE;
 	else
 		p->m_nCount = nCount;
 #endif
-    p->m_nSize = 0; // 队列中元素个数
-    p->m_nHead = p->m_nTail = 0; // 队头和队尾
+    p->m_nSize = 0; // ? ? ?? ??
+    p->m_nHead = p->m_nTail = 0; // ? ??? ??
     return p;
 }
  
 /**
- * [RemoveAll 释放队列中申请的内存]
- * @param p [队列指针]
+ * [RemoveAll ? ? ??? ??]
+ * @param p [? ???]
  */
 void RemoveAll(p_queue p)
 {
@@ -56,9 +56,9 @@ void RemoveAll(p_queue p)
 }
  
 /**
- * [GetSize 获取队列中的元素个数]
- * @param  p [队列指针]
- * @return   [队列中元素的个数]
+ * [GetSize ? ? ?? ?? ????]
+ * @param  p [? ???]
+ * @return   [? ? ?? ??]
  */
 int GetSize(p_queue p)
 {
@@ -67,9 +67,9 @@ int GetSize(p_queue p)
 }
  
 /**
- * [IsFull 判断队列是否满了]
- * @param  p [队列指针]
- * @return   [满则返回1.否则返回0]
+ * [IsFull ?? ?? ??? ??]
+ * @param  p [? ???]
+ * @return   [?? ?? 1, ??? 0 ??]
  */
 int IsFull(p_queue p)
 {
@@ -78,9 +78,9 @@ int IsFull(p_queue p)
 }
  
 /**
- * [IsEmpty 判断队列是否为空]
- * @param  p [队列指针]
- * @return   [空则返回1，否则返回0]
+ * [IsEmpty ?? ????? ??]
+ * @param  p [? ???]
+ * @return   [????? 1, ??? 0 ??]
  */
 int IsEmpty(p_queue p)
 {
@@ -89,10 +89,10 @@ int IsEmpty(p_queue p)
 }
  
 /**
- * [Push 入队一个数据]
- * @param  p     [队列指针]
- * @param  pdata [需要入队的数据的地址]
- * @return       [成功入队返回TRUE，否则返回FALSE]
+ * [Push ??? ?? ??]
+ * @param  p     [? ???]
+ * @param  pdata [??? ??? ??]
+ * @return       [????? ???? TRUE, ??? FALSE]
  */
 int Push(p_queue p, const DATA *pdata)
 {
@@ -106,10 +106,10 @@ int Push(p_queue p, const DATA *pdata)
 }
  
 /**
- * [PushData 入队一个数据]
- * @param  p [队列指针]
- * @param  d [需要入队的数据]
- * @return   [成功入队返回TRUE,否则返回FALSE]
+ * [PushData ??? ?? ??]
+ * @param  p [? ???]
+ * @param  d [??? ???]
+ * @return   [????? ???? TRUE, ??? FALSE]
  */
 int PushData(p_queue p, const DATA d)
 {
@@ -123,10 +123,10 @@ int PushData(p_queue p, const DATA d)
 }
  
 /**
- * [Pop 弹出一个元素]
- * @param  p     [队列指针]
- * @param  pdata [接收弹出的数据，不需要此传出参数可以输入NULL]
- * @return       [成功弹出返回TRUE,否则返回FALSE]
+ * [Pop ??? ??? ??]
+ * @param  p     [? ???]
+ * @param  pdata [??? ???? ?? ???, ?? ??? NULL ??]
+ * @return       [????? ???? TRUE, ??? FALSE]
  */
 int Pop(p_queue p, DATA *pdata)
 {

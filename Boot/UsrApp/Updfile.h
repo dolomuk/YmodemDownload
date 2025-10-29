@@ -7,18 +7,18 @@
 
 typedef enum
 {
-	UNKONW_FILE, // 未知
-	BINARY_FILE, // bin格式文件
-	HEX_FILE, // hex格式文件
-	S19_FILE, // s19格式文件
+	UNKONW_FILE, // 舅 荐 绝澜
+	BINARY_FILE, // bin 屈侥 颇老
+	HEX_FILE, // hex 屈侥 颇老
+	S19_FILE, // s19 屈侥 颇老
 } eFileType;
 
 typedef struct 
 {
-	uint8_t file_name[MAX_FILENAME_SIZE]; // 文件名
-	eFileType file_type; // 文件类型
-	uint32_t file_size; // 文件大小
-	uint32_t tm_modify; // 修改时间秒
+	uint8_t file_name[MAX_FILENAME_SIZE]; // 颇老 捞抚
+	eFileType file_type; // 颇老 蜡屈
+	uint32_t file_size; // 颇老 农扁
+	uint32_t tm_modify; // 荐沥 矫埃(檬)
 } sFileType;
 
 

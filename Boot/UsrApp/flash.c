@@ -1,3 +1,6 @@
+#include <stdint.h>
+#include "stm32f1xx_hal.h"
+#include "stm32f103xb.h"
 #include "flash.h"
 #include "usart.h"
 
@@ -7,7 +10,7 @@
 #define FLASH_TYPEPROGRAM_WORD        0x00000002U  /*!< Program a word (32-bit) at a specified address        */
 
 
-// 解锁flash
+// Flash ?? ??
 FlashStatus FLASH_Unlock(void)
 {
 	FlashStatus status = FLASH_COMPLETE;
@@ -25,7 +28,7 @@ FlashStatus FLASH_Unlock(void)
 	return status;
 }
 
-// 上锁flash
+// Flash ??
 FlashStatus FLASH_Lock(void)
 {
 	FlashStatus status = FLASH_COMPLETE;
@@ -38,7 +41,7 @@ FlashStatus FLASH_Lock(void)
 	return status;
 }
 
-// 解锁选项字节flash区域
+// ?? ??? Flash ?? ?? ??
 FlashStatus HAL_FLASH_OB_Unlock(void)
 {
 	FlashStatus status = FLASH_UNLOCK;
@@ -56,7 +59,7 @@ FlashStatus HAL_FLASH_OB_Unlock(void)
 	return status;
 }
 
-// 上锁选项字节flash区域
+// ?? ??? Flash ?? ??
 FlashStatus HAL_FLASH_OB_Lock(void)
 {
 	FlashStatus status = FLASH_LOCK;

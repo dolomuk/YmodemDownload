@@ -4,9 +4,9 @@
 #include <stdlib.h>
 
 
-// 数据包处理回调函数指针
+// ??? ?? ?? ?? ?? ???
 pfvCallBack this_cb = NULL;
-// 发送数据处理回调函数指针
+// ??? ?? ?? ?? ?? ???
 pfvSendCallBack pfvSendByte = NULL;
 
 #if defined(USE_USER_STRCONVERT)
@@ -157,9 +157,9 @@ void Ymodem_SendCRC16(void)
 }
 
 /**
-  * @brief  注册数据处理和数据发送的回调函数
-  * @param  [I]func: 回调函数地址
-  * @retval 无
+  * @brief  ?? ??? ?? ? ??? ??? ?? ??
+  * @param  [I]func: ?? ?? ??
+  * @retval ??
   */
 void Ymodem_Init(pfvCallBack func, pfvSendCallBack send_func)
 {
@@ -168,10 +168,10 @@ void Ymodem_Init(pfvCallBack func, pfvSendCallBack send_func)
 }
 
 /**
-  * @brief  处理收到的数据包
-  * @param  [I]buf: 数据包数组首地址
-  * @param  [I]size: 数据长度
-  * @retval 无
+  * @brief  ??? ??? ?? ??
+  * @param  [I]buf: ??? ?? ?? ?? ??
+  * @param  [I]size: ??? ??
+  * @retval ??
   */
 static void Handle_DataPackage(uint8_t *buf, uint32_t size)
 {
@@ -180,24 +180,24 @@ static void Handle_DataPackage(uint8_t *buf, uint32_t size)
 }
 
 /**
-  * @brief  处理Ymodem协议第0包数据
-  * @param  [I]buf: 协议第0包数据缓存首地址
-  * @param  [I]size: 协议包大小
-  * @param  [O]file_info: 文件信息块地址，见@sFileType
-  * @retval 无
+  * @brief  Ymodem ???? ?? ?? ??? ??
+  * @param  [I]buf: ???? ?? ?? ??? ?? ?? ??
+  * @param  [I]size: ???? ?? ??
+  * @param  [O]file_info: ?? ?? ?? ??, @sFileType ??
+  * @retval ??
   */
 static void Handle_FirstPackage(uint8_t *buf, uint32_t size, sFileType *file_info)
 {
 	uint16_t i = 0, index = 0;
 	char size_buf[FILE_SIZE_LENGTH] = {0};
-	// char modify_time_buf[FILE_MODIFYSEC_LENGTH] = {0}; // 文件修改时间
-	// 得到文件名字
+	// char modify_time_buf[FILE_MODIFYSEC_LENGTH] = {0}; // ?? ?? ??
+	// ?? ?? ??
 	while(buf[i] != 0x00 && i < size)
 	{
 		file_info->file_name[index++] = buf[i];
 		i++;
 	}
-	// 得到文件类型
+	// ?? ?? ??
 	char *p_type = strstr((const char *)(file_info->file_name), ".");
 	if(NULL != p_type)
 	{
@@ -210,7 +210,7 @@ static void Handle_FirstPackage(uint8_t *buf, uint32_t size, sFileType *file_inf
 		else
 			file_info->file_type = UNKONW_FILE;
 	}
-	// 得到文件大小，单位：字节
+	// ?? ?? ??, ??: ???
 	i++;
 	index = 0;
 	while((buf[i] != 0x20 && buf[i] != 0x00) && i < size)
@@ -226,18 +226,18 @@ static void Handle_FirstPackage(uint8_t *buf, uint32_t size, sFileType *file_inf
 }
 
 /**
-  * @brief  处理Ymodem协议数据应答
-  * @param  [I]buf: 协议数据包数据缓存首地址
-  * @param  [I]size: 协议包大小
-  * @param  [O]file_info: 文件信息块地址，见@sFileType
-  * @retval 无
+  * @brief  Ymodem ???? ??? ?? ??
+  * @param  [I]buf: ???? ??? ?? ??? ?? ?? ??
+  * @param  [I]size: ???? ?? ??
+  * @param  [O]file_info: ?? ?? ?? ??, @sFileType ??
+  * @retval ??
   */
 static void Handle_PackageData(uint8_t *buf, uint32_t size, uint32_t index, sFileType *file_info)
 {
 	if(file_info == NULL)
 		return;
 
-	if(index == PACKET_FILEINFO_INDEX) // 第0包
+	if(index == PACKET_FILEINFO_INDEX) // ?? ??
 	{
 		Handle_FirstPackage(buf, size, file_info);
 		Ymodem_SendAck();
@@ -251,43 +251,45 @@ static void Handle_PackageData(uint8_t *buf, uint32_t size, uint32_t index, sFil
 }
 
 /**
-  * @brief  结束码应答处理
-  * @param  [O]isEndFlag: 处理完2个0x04应答后，置为1
-  * @retval 无
+  * @brief  ?? ?? ?? ??
+  * @param  [O]isEndFlag: 2?? 0x04 ?? ?? ?, 1? ??
+  * @retval ??
   */
 static void EndCodeAck_Handler(uint8_t *isEndFlag)
 {
-	static uint8_t eot_count = 0; // 结束码计数
+	static uint8_t eot_count = 0; // ?? ?? ???
 
 	(*isEndFlag)++;
-	if(eot_count > 0) // 应答第2个0x04
+	if(eot_count > 0) // 2?? 0x04 ??
 	{
 		Ymodem_SendAck();
 		Ymodem_SendCRC16();
 		return;
 	}
-	// 应答第1个0x04
+	// 1?? 0x04 ??
 	Ymodem_SendNAck();
 	eot_count++;
 }
 
 /**
-  * @brief  Ymodem接收处理
-  * @param  [I]buf: 协议数据包数据缓存首地址
-  * @param  [I]size: 协议包大小
-  * @param  [O]file_info: 文件信息块地址，见@sFileType
-  * @param  [O]recv_size: 有效数据包大小统计（不包含第0包和结束应答包）
-  * @retval 包处理状态
+  * @brief  Ymodem ?? ??
+  * @param  [I]buf: ???? ??? ?? ??? ?? ?? ??
+  * @param  [I]size: ???? ?? ??
+  * @param  [O]file_info: ?? ?? ?? ??, @sFileType ??
+  * @param  [O]recv_size: ?? ??? ?? ?? ?? (?? ?? ? ?? ?? ?? ??)
+  * @retval ?? ?? ??
   */
 eYmodemStatus Ymodem_Receive(uint8_t *buf, uint32_t buf_size, sFileType *file_info, uint32_t * recv_size)
 {
-	static uint32_t package_count = 0; // 包计数
-	static uint32_t error_count = 0; // 错误计数
-	static uint8_t isEndFlag = 0; // 结束帧标记
-	uint32_t package_size; // 包大小
-	uint16_t crc_16 = 0; // CRC16结果
-	uint8_t package_type = buf[PACKET_FILEINFO_INDEX]; // 包类型
-	eYmodemStatus status = YMODEM_NO_FILE; // 处理状态
+	static uint32_t package_count 	= 0; 	//	?? ???
+	static uint32_t error_count 	= 0; 	//	?? ???
+	static uint8_t isEndFlag 		= 0; 	//	?? ??? ???
+
+	uint32_t package_size; 								//	?? ??
+	uint16_t crc_16 = 0;   								//	CRC16 ??
+	uint8_t package_type = buf[PACKET_FILEINFO_INDEX];	//	?? ??
+
+	eYmodemStatus status = YMODEM_NO_FILE; //	?? ??
 	
 	if(buf == NULL)
 	{
@@ -295,7 +297,7 @@ eYmodemStatus Ymodem_Receive(uint8_t *buf, uint32_t buf_size, sFileType *file_in
 		goto RETURN;
 	}
 	
-	if(package_count != 0 && (buf_size == 1) && (buf[0] == EOT)) // 判断是否为结束码
+	if(package_count != 0 && (buf_size == 1) && (buf[0] == EOT)) // ?? ?? ??
 	{
 		EndCodeAck_Handler(&isEndFlag);
 		if(isEndFlag)
@@ -305,15 +307,15 @@ eYmodemStatus Ymodem_Receive(uint8_t *buf, uint32_t buf_size, sFileType *file_in
 		}
 	}
 	
-	// 判断文件大小是否有效
-	if(buf_size > (PACKET_1K_SIZE + PACKET_OVERHEAD) || 
-		buf_size < (PACKET_SIZE + PACKET_OVERHEAD))
+	// ?? ?? ??? ??
+	if(buf_size > (PACKET_1K_SIZE + PACKET_OVERHEAD) || buf_size < (PACKET_SIZE + PACKET_OVERHEAD))
 	{
 		Ymodem_Abort();
 		status = YMODEM_ABORTED;
 		goto RETURN;
 	}
-	// 判断正反码
+
+	// ?? ?? ??
 	if((buf[PACKET_SEQNO_INDEX] + buf[PACKET_SEQNO_COMP_INDEX]) != 0xFF)
 	{
 		Ymodem_Abort();
@@ -322,7 +324,10 @@ eYmodemStatus Ymodem_Receive(uint8_t *buf, uint32_t buf_size, sFileType *file_in
 	}
 	
 	package_size = (package_type == SOH) ? PACKET_SIZE : PACKET_1K_SIZE;
-	crc_16 = crc16(buf+PACKET_HEADER, package_size);
+
+	// CRC16 ??
+	crc_16 = crc16(buf + PACKET_HEADER, package_size);
+
 	if( crc_16 != ((buf[buf_size - 2] << 8) | buf[buf_size - 1]))
 	{
 		status = YMODEM_CONTINUE;
@@ -332,18 +337,19 @@ eYmodemStatus Ymodem_Receive(uint8_t *buf, uint32_t buf_size, sFileType *file_in
 			Ymodem_Abort();
 			goto RETURN;
 		}
-		Ymodem_SendNAck(); // 重发
+		Ymodem_SendNAck(); // ??? ??
 	}
 	
-	if(isEndFlag) // 结束帧
+	if(isEndFlag) // ?? ???
 	{
-		package_count = 0;
-		isEndFlag = 0;
-		error_count = 0;
+		package_count 	=	0;
+		isEndFlag 		=	0;
+		error_count 	=	0;
+		
 		if(buf[PACKET_HEADER] == 0x00)
 		{
 			Ymodem_SendAck();
-		#ifdef SUPPORT_CONTINUE_DOWNLOAD_MODE // 连续传输
+		#ifdef SUPPORT_CONTINUE_DOWNLOAD_MODE // ?? ??
 			Ymodem_SendCRC16();
 			status = YMODEM_CONTINUE;
 		#else
@@ -361,7 +367,7 @@ eYmodemStatus Ymodem_Receive(uint8_t *buf, uint32_t buf_size, sFileType *file_in
 	}
 	else
 	{
-		(*recv_size) += package_size; // 接收大小计数
+		(*recv_size) += package_size; // ?? ?? ??
 		status = YMODEM_CONTINUE;
 	}
 	
